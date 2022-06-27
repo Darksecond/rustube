@@ -1,0 +1,515 @@
+{
+  "db": "SQLite",
+  "23050f5a2fbf1d0ad4ca1ee69986e6bf3bf33320a488e22b2763a44a56b6ef19": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "title",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "path",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "published_at",
+          "ordinal": 4,
+          "type_info": "Int64"
+        },
+        {
+          "name": "duration",
+          "ordinal": 5,
+          "type_info": "Int64"
+        },
+        {
+          "name": "channel_id",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "channel_title",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "playstate_id?",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "playstate_position?",
+          "ordinal": 9,
+          "type_info": "Int64"
+        },
+        {
+          "name": "playstate_modified_at?",
+          "ordinal": 10,
+          "type_info": "Int64"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "\n                                         SELECT videos.id, videos.title, videos.description, videos.path, videos.published_at, videos.duration, videos.channel_id,\n                                         channels.title AS channel_title,\n                                         playstates.id as \"playstate_id?\", playstates.position as \"playstate_position?\", playstates.modified_at as \"playstate_modified_at?\"\n                                         FROM videos\n                                         INNER JOIN channels ON channels.id = videos.channel_id\n                                         LEFT JOIN playstates ON playstates.id = videos.id\n                                         WHERE videos.id = $1\n                                "
+  },
+  "2db29f5476ab19bb6d781ebbce74b8c975c78246675253276f25fa6e8307d8ae": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "position",
+          "ordinal": 1,
+          "type_info": "Int64"
+        },
+        {
+          "name": "modified_at",
+          "ordinal": 2,
+          "type_info": "Int64"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "\n                                         SELECT playstates.id, playstates.position, playstates.modified_at\n                                         FROM playstates\n                                         WHERE playstates.id = $1\n                                "
+  },
+  "30ecd5cf64a407ed0eb6a982790b1f70e4103b1e641723951a60b6643f6193a8": {
+    "describe": {
+      "columns": [
+        {
+          "name": "title",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "slug",
+          "ordinal": 1,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 0
+      }
+    },
+    "query": "\n                    SELECT title, slug\n                    FROM playlists\n                    ORDER BY title ASC\n                    "
+  },
+  "5fdd11423a540786caddf2a3718ffd9ec0f3d3ff7712a2a6232d87dc949fb288": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "\n                 DELETE FROM playlist_items\n                 WHERE playlist_id = $1\n                 "
+  },
+  "99766931ecc0bef5d9abe464ed09833bd9b3635159b22bc9f625b39c1ec75d9d": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "title",
+          "ordinal": 1,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "\n                                         SELECT id, title\n                                         FROM channels\n                                         WHERE id = $1\n                                "
+  },
+  "af9d0a015ee78332f08f615229f802dcad7442d966f187664fdbf037233a6523": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int64"
+        }
+      ],
+      "nullable": [
+        false
+      ],
+      "parameters": {
+        "Right": 2
+      }
+    },
+    "query": "\n                 INSERT INTO playlists\n                 (title, slug)\n                 VALUES\n                 ($1, $2)\n                 ON CONFLICT(slug) DO UPDATE SET title=$1\n                 RETURNING id\n                 "
+  },
+  "b54e4d2bf99022a7922d80e1a486ea42c39d1cf5a3f9a8191b9cd089f3104ac9": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "title",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "path",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "published_at",
+          "ordinal": 4,
+          "type_info": "Int64"
+        },
+        {
+          "name": "duration",
+          "ordinal": 5,
+          "type_info": "Int64"
+        },
+        {
+          "name": "channel_id",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "channel_title",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "playstate_id?",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "playstate_position?",
+          "ordinal": 9,
+          "type_info": "Int64"
+        },
+        {
+          "name": "playstate_modified_at?",
+          "ordinal": 10,
+          "type_info": "Int64"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "\n                                         SELECT videos.id, videos.title, videos.description, videos.path, videos.published_at, videos.duration, videos.channel_id,\n                                         channels.title AS channel_title,\n                                         playstates.id as \"playstate_id?\", playstates.position as \"playstate_position?\", playstates.modified_at as \"playstate_modified_at?\"\n                                         FROM videos\n                                         INNER JOIN channels ON channels.id = videos.channel_id\n                                         LEFT JOIN playstates ON playstates.id = videos.id\n                                         WHERE videos.channel_id = $1\n                                         ORDER BY published_at DESC\n                                         "
+  },
+  "b728c47950aa43162ed4fc0e36e6b10f58d49db455ca99f341b1b8f6d50c01bd": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 7
+      }
+    },
+    "query": "\n                 INSERT INTO videos\n                 (id, title, description, path, published_at, channel_id, duration)\n                 VALUES ($1, $2, $3, $4, $5, $6, $7)\n                 ON CONFLICT(id) DO UPDATE SET title=$2,description=$3,path=$4, published_at=$5,channel_id=$6,duration=$7\n                 "
+  },
+  "bf48acfe96886c24fe3cf9b502cbed0a0b1582016cded9482823fbad8c91432e": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "title",
+          "ordinal": 1,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 0
+      }
+    },
+    "query": "\n                                   SELECT id, title FROM channels\n                                   ORDER BY title DESC\n                                   "
+  },
+  "cdafb0d19ecb14affa7097310f4ed2154105fcf734a466f865d0aa92b7b150fd": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 3
+      }
+    },
+    "query": "\n                 INSERT INTO playstates\n                 (id, position, modified_at)\n                 VALUES ($1, $2, $3)\n                 ON CONFLICT(id) DO UPDATE SET position=$2,modified_at=$3\n                 "
+  },
+  "d0ae8f8dabbdc61eed02d0b68e23c2e8d3de6fbacf61c620f7e9612a78e2590b": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 3
+      }
+    },
+    "query": "\n                     INSERT INTO playlist_items\n                     (video_id, item_index, playlist_id)\n                     VALUES\n                     ($1, $2, $3)\n                     "
+  },
+  "df05f4530a7b802bd3d57c718e8e897f004c10e19148b3ef012d147d626c7065": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 2
+      }
+    },
+    "query": "\n                 INSERT INTO channels\n                 (id, title)\n                 VALUES ($1, $2)\n                 ON CONFLICT(id) DO UPDATE SET title=$2\n                 "
+  },
+  "f12e9b0eaa9ba4351abb6f8cb1ee31364083229e6ee84dd32c941bb8b6a54035": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "title",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "path",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "published_at",
+          "ordinal": 4,
+          "type_info": "Int64"
+        },
+        {
+          "name": "duration",
+          "ordinal": 5,
+          "type_info": "Int64"
+        },
+        {
+          "name": "channel_id",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "channel_title",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "playstate_id?",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "playstate_position?",
+          "ordinal": 9,
+          "type_info": "Int64"
+        },
+        {
+          "name": "playstate_modified_at?",
+          "ordinal": 10,
+          "type_info": "Int64"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 0
+      }
+    },
+    "query": "\n                                         SELECT videos.id, videos.title, videos.description, videos.path, videos.published_at, videos.duration, videos.channel_id,\n                                         channels.title AS channel_title,\n                                         playstates.id as \"playstate_id?\", playstates.position as \"playstate_position?\", playstates.modified_at as \"playstate_modified_at?\"\n                                         FROM videos\n                                         LEFT JOIN playstates ON videos.id = playstates.id\n                                         INNER JOIN channels ON channels.id = videos.channel_id\n                                         ORDER BY published_at DESC\n                                         "
+  },
+  "f1eefec8099af66663f5f46080ab707f3d0a84d17a0a11992d200de8606c11f6": {
+    "describe": {
+      "columns": [
+        {
+          "name": "video_id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "video_title",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "video_description",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "video_path",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "video_published_at",
+          "ordinal": 4,
+          "type_info": "Int64"
+        },
+        {
+          "name": "video_duration",
+          "ordinal": 5,
+          "type_info": "Int64"
+        },
+        {
+          "name": "channel_id",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "channel_title",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "playstate_id?",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "playstate_position?",
+          "ordinal": 9,
+          "type_info": "Int64"
+        },
+        {
+          "name": "playstate_modified_at?",
+          "ordinal": 10,
+          "type_info": "Int64"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "\n                                         SELECT videos.id as video_id, videos.title as video_title, videos.description as video_description, videos.path as video_path, videos.published_at as video_published_at, videos.duration as video_duration, videos.channel_id as channel_id,\n                                         channels.title AS channel_title,\n                                         playstates.id as \"playstate_id?\", playstates.position as \"playstate_position?\", playstates.modified_at as \"playstate_modified_at?\"\n                                         FROM playlist_items\n                                         INNER JOIN videos ON videos.id = playlist_items.video_id\n                                         INNER JOIN channels ON channels.id = videos.channel_id\n                                         LEFT JOIN playstates ON playstates.id = videos.id\n                                         WHERE playlist_items.playlist_id = $1\n                                         ORDER BY playlist_items.item_index ASC\n                                    "
+  },
+  "f5b6bb55fa3184b21ea3e7308ffc80f6f589f271d661a19b4fad48ffd79cc61d": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int64"
+        },
+        {
+          "name": "title",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "slug",
+          "ordinal": 2,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "\n                                   SELECT id, title, slug FROM playlists WHERE slug=$1\n                                   "
+  }
+}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{channel.title}} - MORETUBE{% endblock %}
+{% block body %}
+  <section class="layout feed">
+    <nav class="area-nav">
+      <a href="/feed">MORETUBE</a>
+    </nav>
+
+    <h1 class="area-title">{{channel.title}}</h1>
+
+    <div class="area-main">
+      <div class="list">
+        {% for video in videos %}
+        <div class="item">
+          <a href="/video/{{video.id}}">{{video.title}}</a> — <a href="/channel/{{video.channel.id}}">{{video.channel.title}}</a> — {{video.percentage_watched()}}%
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="area-sidebar">
+      <h4>CHANNELS</h4>
+      <div class="list">
+      {% for channel in channels %}
+      <div class="item">
+        <a href="/channel/{{channel.id}}">{{channel.title}}</a>
+      </div>
+      {% endfor %}
+      </div>
+
+      <h4>PLAYLISTS</h4>
+      <div class="list">
+        {% for playlist in playlists %}
+        <div class="item">
+          <a href="/playlist/{{playlist.slug}}">{{playlist.title}}</a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </section>
+{% endblock %}

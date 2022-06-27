@@ -1,0 +1,24 @@
+#!/bin/bash
+
+mkdir -p dev-inst
+mkdir -p dev-inst/videos
+export RUST_LOG=rustube,tower_http
+export DATABASE_URL=sqlite://dev-inst/rustube.db?mode=rwc
+export VIDEO_ROOT=dev-inst/videos
+
+function clean {
+  rm -f dev-inst/rustube.db*
+}
+
+function prepare {
+  cargo sqlx prepare -- --bin rustube
+}
+
+function migrate {
+  sqlx database create
+  sqlx migrate run
+}
+
+function run {
+  cargo run -- $@
+}

@@ -1,0 +1,25 @@
+[package]
+name = "rustube"
+version = "0.1.0"
+edition = "2021"
+
+# see more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal"] }
+clap = { version = "3.2.5", features = ["derive", "env"] }
+anyhow = "1.0"
+thiserror = "1.0"
+axum = "0.5.7"
+tower = "0.4.12"
+tower-http = { version = "0.3.4", features = ["trace", "fs", "add-extension"] }
+tracing = "0.1.35"
+tracing-subscriber = "0.3.11"
+sqlx = { version = "0.6", features = ["sqlite", "runtime-tokio-native-tls", "offline"] }
+futures = "0.3"
+time = { version = "0.3.11", features = ["parsing", "formatting", "serde", "serde-well-known"] }
+wax = "0.5.0"
+serde = "1.0.137"
+serde_json = "1.0"
+askama = { version = "0.11.1", features=["serde-json"] }
+toml = "0.5.9"

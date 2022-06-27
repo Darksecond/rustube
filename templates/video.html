@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}{{video.title}} - MORETUBE{% endblock %}
+{% block head %}
+  <script>var data = {{data|json|safe}};</script>
+  <script src="/assets/watch.js"></script>
+{% endblock %}
+{% block body %}
+  <section class="layout video">
+    <nav class="area-nav">
+      <a href="/feed">MORETUBE</a>
+    </nav>
+
+    <div class="area-video">
+      <video autoplay controls src="/video/{{video.id}}/video.mp4"></video>
+    </div>
+
+    <div class="area-title">
+      <h3>{{video.title}}</h3>
+      <h4><a href="/channel/{{video.channel.id}}">{{video.channel.title}}</a></h4>
+    </div>
+
+    <div class="area-main">
+      {{video.description|linebreaks|safe}}
+    </div>
+
+    <div class="area-sidebar">
+      <h4>CHANNELS</h4>
+      <div class="list">
+      {% for channel in channels %}
+      <div class="item">
+        <a href="/channel/{{channel.id}}">{{channel.title}}</a>
+      </div>
+      {% endfor %}
+      </div>
+
+      <h4>PLAYLISTS</h4>
+      <div class="list">
+        {% for playlist in playlists %}
+        <div class="item">
+          <a href="/playlist/{{playlist.slug}}">{{playlist.title}}</a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </section>
+{% endblock %}
