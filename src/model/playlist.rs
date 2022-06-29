@@ -174,7 +174,7 @@ pub async fn list_playlists(db: &SqlitePool) -> Result<Vec<SimplePlaylist>, sqlx
     let playlists: Vec<_> = sqlx::query_as!(SimplePlaylist, r#"
                     SELECT title, slug
                     FROM playlists
-                    ORDER BY title ASC
+                    ORDER BY title COLLATE NOCASE ASC
                     "#)
         .fetch(db)
         .try_collect()

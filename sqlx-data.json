@@ -1,5 +1,29 @@
 {
   "db": "SQLite",
+  "22e838ba003739f2f581349999862be92f1b59c4675305d0b7ca569a71048ebb": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "title",
+          "ordinal": 1,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 0
+      }
+    },
+    "query": "\n                                   SELECT id, title FROM channels\n                                   ORDER BY title COLLATE NOCASE ASC\n                                   "
+  },
   "23050f5a2fbf1d0ad4ca1ee69986e6bf3bf33320a488e22b2763a44a56b6ef19": {
     "describe": {
       "columns": [
@@ -107,30 +131,6 @@
       }
     },
     "query": "\n                                         SELECT playstates.id, playstates.position, playstates.modified_at\n                                         FROM playstates\n                                         WHERE playstates.id = $1\n                                "
-  },
-  "30ecd5cf64a407ed0eb6a982790b1f70e4103b1e641723951a60b6643f6193a8": {
-    "describe": {
-      "columns": [
-        {
-          "name": "title",
-          "ordinal": 0,
-          "type_info": "Text"
-        },
-        {
-          "name": "slug",
-          "ordinal": 1,
-          "type_info": "Text"
-        }
-      ],
-      "nullable": [
-        false,
-        false
-      ],
-      "parameters": {
-        "Right": 0
-      }
-    },
-    "query": "\n                    SELECT title, slug\n                    FROM playlists\n                    ORDER BY title ASC\n                    "
   },
   "5fdd11423a540786caddf2a3718ffd9ec0f3d3ff7712a2a6232d87dc949fb288": {
     "describe": {
@@ -272,16 +272,16 @@
     },
     "query": "\n                 INSERT INTO videos\n                 (id, title, description, path, published_at, channel_id, duration)\n                 VALUES ($1, $2, $3, $4, $5, $6, $7)\n                 ON CONFLICT(id) DO UPDATE SET title=$2,description=$3,path=$4, published_at=$5,channel_id=$6,duration=$7\n                 "
   },
-  "b94bcfd25cf2d251df65570efff067bfdfdd32ed27ae012dc0bbfca0d4e25a91": {
+  "cba443afb58e6ee9f62efcadc9aba1d834592db43365d957f5e8071cfdc70801": {
     "describe": {
       "columns": [
         {
-          "name": "id",
+          "name": "title",
           "ordinal": 0,
           "type_info": "Text"
         },
         {
-          "name": "title",
+          "name": "slug",
           "ordinal": 1,
           "type_info": "Text"
         }
@@ -294,7 +294,7 @@
         "Right": 0
       }
     },
-    "query": "\n                                   SELECT id, title FROM channels\n                                   ORDER BY title ASC\n                                   "
+    "query": "\n                    SELECT title, slug\n                    FROM playlists\n                    ORDER BY title COLLATE NOCASE ASC\n                    "
   },
   "cdafb0d19ecb14affa7097310f4ed2154105fcf734a466f865d0aa92b7b150fd": {
     "describe": {

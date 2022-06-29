@@ -26,7 +26,7 @@ pub async fn upsert_channel(channel: Channel, db: &SqlitePool) -> anyhow::Result
 pub async fn list_channels(db: &SqlitePool) -> anyhow::Result<Vec<Channel>> {
     let channels = sqlx::query_as!(Channel, r#"
                                    SELECT id, title FROM channels
-                                   ORDER BY title ASC
+                                   ORDER BY title COLLATE NOCASE ASC
                                    "#)
         .fetch_all(db).await?;
 
