@@ -50,6 +50,8 @@ async function storeState() {
 function bindKeys() {
   let video = document.querySelector('video');
   document.addEventListener('keydown', ev => {
+    let modifierPressed = ev.ctrlKey || ev.altKey || ev.metaKey || ev.shiftKey;
+    if(modifierPressed) return;
     if((ev.key == ' ' || ev.key == 'k') && document.webkitFullscreenElement == null) {
       ev.preventDefault();
 
