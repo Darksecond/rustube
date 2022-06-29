@@ -272,7 +272,7 @@
     },
     "query": "\n                 INSERT INTO videos\n                 (id, title, description, path, published_at, channel_id, duration)\n                 VALUES ($1, $2, $3, $4, $5, $6, $7)\n                 ON CONFLICT(id) DO UPDATE SET title=$2,description=$3,path=$4, published_at=$5,channel_id=$6,duration=$7\n                 "
   },
-  "bf48acfe96886c24fe3cf9b502cbed0a0b1582016cded9482823fbad8c91432e": {
+  "b94bcfd25cf2d251df65570efff067bfdfdd32ed27ae012dc0bbfca0d4e25a91": {
     "describe": {
       "columns": [
         {
@@ -294,7 +294,7 @@
         "Right": 0
       }
     },
-    "query": "\n                                   SELECT id, title FROM channels\n                                   ORDER BY title DESC\n                                   "
+    "query": "\n                                   SELECT id, title FROM channels\n                                   ORDER BY title ASC\n                                   "
   },
   "cdafb0d19ecb14affa7097310f4ed2154105fcf734a466f865d0aa92b7b150fd": {
     "describe": {

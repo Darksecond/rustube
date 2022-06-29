@@ -5,7 +5,7 @@ RUN apk add openssl-dev
 
 WORKDIR /src
 COPY . .
-RUN cargo build --release
+RUN cargo --color never build --release
 
 FROM alpine:3.16
 COPY --from=builder /src/target/release/rustube /usr/local/bin/rustube
