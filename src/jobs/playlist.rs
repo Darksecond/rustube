@@ -3,16 +3,27 @@ use super::{JobContext, JobError};
 use serde::Deserialize;
 use sqlx::sqlite::SqlitePool;
 use crate::model::playlist::{upsert_playlist, UpsertPlaylist, UpsertPlaylistItem};
+use time::Date;
+
+#[derive(Debug, Default, Deserialize)]
+enum PlaylistFileOrder {
+    #[default]
+    Order,
+    Date,
+}
 
 #[derive(Debug, Deserialize)]
 struct PlaylistFileItem {
     id: String,
+    #[serde(default)]
+    date: Option<Date>,
 }
 
 #[derive(Debug, Deserialize)]
 struct PlaylistFile {
     title: String,
     slug: String,
+    order: PlaylistFileOrder,
     items: Vec<PlaylistFileItem>,
 }
 
@@ -31,12 +42,32 @@ impl PlaylistFile {
             items,
         }
     }
+
+    pub async fn order_by_date(&mut self, db: &SqlitePool) -> Result<(), sqlx::Error> {
+        use crate::model::video::get_video;
+
+        for item in &mut self.items {
+            if let Some(video) = get_video(&item.id, db).await? {
+                item.date = Some(video.published_at);
+            }
+        }
+
+        self.items.sort_by(|a, b| a.date.partial_cmp(&b.date).unwrap());
+
+        Ok(())
+   }
 }
 
 
 async fn process_entry(path: impl AsRef<Path>, db: &SqlitePool) -> Result<(), JobError> {
     let text = tokio::fs::read_to_string(path).await?;
-    let playlist: PlaylistFile = toml::from_str(&text)?;
+    let mut playlist: PlaylistFile = toml::from_str(&text)?;
+
+    match playlist.order {
+        PlaylistFileOrder::Order => (),
+        PlaylistFileOrder::Date => playlist.order_by_date(db).await?,
+    }
+
     let playlist = playlist.into_upsert_playlist();
     tracing::debug!(id=%playlist.slug, "processing playlist");
 
