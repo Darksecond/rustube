@@ -5,11 +5,16 @@ use sqlx::sqlite::SqlitePool;
 use crate::model::playlist::{upsert_playlist, UpsertPlaylist, UpsertPlaylistItem};
 use time::Date;
 
-#[derive(Debug, Default, Deserialize)]
+#[derive(Debug, Deserialize)]
 enum PlaylistFileOrder {
-    #[default]
     Order,
     Date,
+}
+
+impl Default for PlaylistFileOrder {
+    fn default() -> Self {
+        PlaylistFileOrder::Order
+    }
 }
 
 #[derive(Debug, Deserialize)]
@@ -23,6 +28,7 @@ struct PlaylistFileItem {
 struct PlaylistFile {
     title: String,
     slug: String,
+    #[serde(default)]
     order: PlaylistFileOrder,
     items: Vec<PlaylistFileItem>,
 }
