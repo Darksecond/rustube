@@ -25,12 +25,18 @@ struct PlaylistFileItem {
 }
 
 #[derive(Debug, Deserialize)]
+struct PlaylistFileSearch {
+    term: String,
+}
+
+#[derive(Debug, Deserialize)]
 struct PlaylistFile {
     title: String,
     slug: String,
     #[serde(default)]
     order: PlaylistFileOrder,
     items: Vec<PlaylistFileItem>,
+    search: Option<PlaylistFileSearch>,
 }
 
 impl PlaylistFile {
@@ -68,6 +74,17 @@ impl PlaylistFile {
 async fn process_entry(path: impl AsRef<Path>, db: &SqlitePool) -> Result<(), JobError> {
     let text = tokio::fs::read_to_string(path).await?;
     let mut playlist: PlaylistFile = toml::from_str(&text)?;
+
+    if let Some(search) = &playlist.search {
+        use crate::model::video::index::match_videos;
+        let videos = match_videos(&search.term, db).await?;
+        for video in videos {
+            playlist.items.push(PlaylistFileItem {
+                id: video.id,
+                date: None,
+            });
+        }
+    }
 
     match playlist.order {
         PlaylistFileOrder::Order => (),
