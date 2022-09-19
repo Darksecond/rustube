@@ -93,7 +93,7 @@ impl PlaylistItemFromQuery {
 
 #[tracing::instrument(skip(db))]
 pub async fn upsert_playlist(playlist: UpsertPlaylist, db: &SqlitePool) -> Result<(), sqlx::Error> {
-    let transaction = db.begin().await?;
+    let mut transaction = db.begin().await?;
 
     // upsert playlist
     let id: i64 = sqlx::query_scalar!(r#"
@@ -106,7 +106,7 @@ pub async fn upsert_playlist(playlist: UpsertPlaylist, db: &SqlitePool) -> Resul
                  "#,
                  playlist.title,
                  playlist.slug)
-        .fetch_one(db)
+        .fetch_one(&mut transaction)
         .await?;
 
     tracing::trace!(id, "playlist");
@@ -117,7 +117,7 @@ pub async fn upsert_playlist(playlist: UpsertPlaylist, db: &SqlitePool) -> Resul
                  WHERE playlist_id = $1
                  "#,
                  id)
-        .execute(db)
+        .execute(&mut transaction)
         .await?;
 
     // create items
@@ -132,7 +132,7 @@ pub async fn upsert_playlist(playlist: UpsertPlaylist, db: &SqlitePool) -> Resul
                      item.id,
                      index,
                      id)
-            .execute(db)
+            .execute(&mut transaction)
             .await?;
     }
 

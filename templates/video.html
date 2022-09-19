@@ -6,9 +6,7 @@
 {% endblock %}
 {% block body %}
   <section class="layout video">
-    <nav class="area-nav">
-      <a href="/feed">MORETUBE</a>
-    </nav>
+    {% include "nav.html" %}
 
     <div class="area-video">
       <video autoplay controls src="/video/{{video.id}}/video.mp4"></video>

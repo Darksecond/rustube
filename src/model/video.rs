@@ -1,3 +1,5 @@
+pub mod index;
+
 use sqlx::sqlite::SqlitePool;
 use futures::prelude::*;
 use time::{OffsetDateTime, Date};
@@ -68,7 +70,7 @@ impl VideoFromQuery {
             id: self.id,
             title: self.title,
             description: self.description,
-            path: self.path.into(),
+            path: self.path,
             published_at: OffsetDateTime::from_unix_timestamp(self.published_at).unwrap().date(),
             duration: self.duration as u32,
             channel: Channel {

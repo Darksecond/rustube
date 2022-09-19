@@ -2,9 +2,7 @@
 {% block title %}{{channel.title}} - MORETUBE{% endblock %}
 {% block body %}
   <section class="layout feed">
-    <nav class="area-nav">
-      <a href="/feed">MORETUBE</a>
-    </nav>
+    {% include "nav.html" %}
 
     <h1 class="area-title">{{channel.title}}</h1>
 

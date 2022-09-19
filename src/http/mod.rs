@@ -7,6 +7,7 @@ mod assets;
 mod channel;
 mod playstate;
 mod playlist;
+mod search;
 
 use anyhow::Context;
 use crate::config::Config;
@@ -19,6 +20,7 @@ use tower_http::add_extension::AddExtensionLayer;
 
 pub use error::HttpError;
 
+#[allow(dead_code)]
 #[derive(Clone)]
 struct HttpContext {
     config: Arc<Config>,
@@ -56,4 +58,5 @@ fn router() -> Router {
         .merge(channel::router())
         .merge(playstate::router())
         .merge(playlist::router())
+        .merge(search::router())
 }

@@ -5,6 +5,7 @@ use time::Date;
 use sqlx::sqlite::SqlitePool;
 use crate::model::channel::{upsert_channel, Channel};
 use crate::model::video::{upsert_video, UpsertVideo};
+use crate::model::tag::upsert_tags;
 
 #[derive(Deserialize, Debug)]
 pub struct YtVideo {
@@ -17,6 +18,7 @@ pub struct YtVideo {
     pub uploader: String,
     pub duration: f64,
     upload_date: String,
+    pub tags: Vec<String>,
 }
 
 impl YtVideo {
@@ -60,6 +62,7 @@ async fn process_entry(path: &Path, db: &SqlitePool) -> Result<(), JobError> {
 
     upsert_channel(json.to_channel(), db).await?;
     upsert_video(json.to_upsert_video(path), db).await?;
+    upsert_tags(&json.id, json.tags.as_slice(), db).await?;
 
     Ok(())
 }

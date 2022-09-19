@@ -1,5 +1,15 @@
 {
   "db": "SQLite",
+  "091c115eef5024c29d271fe97d98fa7af22e03038c7a6c9334b93c9c26269a94": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 5
+      }
+    },
+    "query": "\n                     INSERT INTO video_index\n                     (video_id, title, description, channel, tags)\n                     VALUES\n                     ($1, $2, $3, $4, $5)\n                     "
+  },
   "22e838ba003739f2f581349999862be92f1b59c4675305d0b7ca569a71048ebb": {
     "describe": {
       "columns": [
@@ -132,6 +142,50 @@
     },
     "query": "\n                                         SELECT playstates.id, playstates.position, playstates.modified_at\n                                         FROM playstates\n                                         WHERE playstates.id = $1\n                                "
   },
+  "35edace54306ec1a47c22d65c1ffaa8b105fa49567f7e4f7edf841bfdf8f7090": {
+    "describe": {
+      "columns": [
+        {
+          "name": "video_id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "title",
+          "ordinal": 1,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "\n                               SELECT video_id, title\n                               FROM tags\n                               WHERE video_id = $1\n                               "
+  },
+  "571839bbc5f31830cbcc6ad0c9bd13ac53c962dd637e1991e0844a5f89eda164": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 2
+      }
+    },
+    "query": "\n                     INSERT INTO tags\n                     (video_id, title)\n                     VALUES\n                     ($1, $2)\n                     "
+  },
+  "59eb34f19cc93cd6607ec4316f620fc6e7a384ad2dcdb2b4ceb0ee511af12d54": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "DELETE FROM video_index WHERE video_id = $1"
+  },
   "5fdd11423a540786caddf2a3718ffd9ec0f3d3ff7712a2a6232d87dc949fb288": {
     "describe": {
       "columns": [],
@@ -141,6 +195,34 @@
       }
     },
     "query": "\n                 DELETE FROM playlist_items\n                 WHERE playlist_id = $1\n                 "
+  },
+  "694d402c1493409fc30f6fad28813744e96ea94b6bac065b37478a005d16e046": {
+    "describe": {
+      "columns": [
+        {
+          "name": "video_id!: String",
+          "ordinal": 0,
+          "type_info": "Null"
+        }
+      ],
+      "nullable": [
+        true
+      ],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "SELECT video_id as \"video_id!: String\" FROM video_index WHERE video_index MATCH $1 ORDER BY rank"
+  },
+  "920604d68db58432d23e78d692312632288e9bf9678d5a38dddeef08431b891f": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "\n                 DELETE FROM tags WHERE video_id = $1\n                 "
   },
   "99766931ecc0bef5d9abe464ed09833bd9b3635159b22bc9f625b39c1ec75d9d": {
     "describe": {
@@ -183,6 +265,16 @@
       }
     },
     "query": "\n                 INSERT INTO playlists\n                 (title, slug)\n                 VALUES\n                 ($1, $2)\n                 ON CONFLICT(slug) DO UPDATE SET title=$1\n                 RETURNING id\n                 "
+  },
+  "b40ad9764b0e3dbc58e97f62c33716e41ea27edbdffb37c50fb98b579eb7c556": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 5
+      }
+    },
+    "query": "\n                 INSERT INTO video_index\n                 (video_id, title, description, channel, tags)\n                 VALUES\n                 ($1, $2, $3, $4, $5)\n                 "
   },
   "b54e4d2bf99022a7922d80e1a486ea42c39d1cf5a3f9a8191b9cd089f3104ac9": {
     "describe": {
@@ -261,6 +353,24 @@
       }
     },
     "query": "\n                                         SELECT videos.id, videos.title, videos.description, videos.path, videos.published_at, videos.duration, videos.channel_id,\n                                         channels.title AS channel_title,\n                                         playstates.id as \"playstate_id?\", playstates.position as \"playstate_position?\", playstates.modified_at as \"playstate_modified_at?\"\n                                         FROM videos\n                                         INNER JOIN channels ON channels.id = videos.channel_id\n                                         LEFT JOIN playstates ON playstates.id = videos.id\n                                         WHERE videos.channel_id = $1\n                                         ORDER BY published_at DESC\n                                         "
+  },
+  "b6ec4e5636205f78daf4c4bd91a4781d5a03fad298224b86022c91d489d2aa75": {
+    "describe": {
+      "columns": [
+        {
+          "name": "video_id!: String",
+          "ordinal": 0,
+          "type_info": "Null"
+        }
+      ],
+      "nullable": [
+        true
+      ],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "\n                                          SELECT video_id as \"video_id!: String\" FROM video_index WHERE video_index MATCH $1 ORDER BY rank\n                                          "
   },
   "b728c47950aa43162ed4fc0e36e6b10f58d49db455ca99f341b1b8f6d50c01bd": {
     "describe": {

@@ -21,11 +21,29 @@
 
 .area-nav {
   grid-area: header;
-  line-height: 5.2rem;
-  font-size: 1.6rem;
+  padding: 1rem 0;
   border-bottom: 0.1rem solid #f4f5f6;
   margin-bottom: 2rem;
   justify-self: stretch;
+
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  grid-template-areas: "header-left header-right";
+  align-items: center;
+}
+
+.area-nav-left {
+  grid-area: header-left;
+  justify-self: left;
+}
+
+.area-nav-right {
+  grid-area: header-right;
+  justify-self: right;
+}
+
+.area-nav-right input, .area-nav-right form {
+  margin-bottom: 0;
 }
 
 .area-video {

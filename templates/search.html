@@ -1,16 +1,16 @@
 {% extends "base.html" %}
-{% block title %}{{playlist.title}} - MORETUBE{% endblock %}
+{% block title %}Results - {{term}} - MORETUBE{% endblock %}
 {% block body %}
   <section class="layout feed">
     {% include "nav.html" %}
 
-    <h1 class="area-title">{{playlist.title}}</h1>
+    <h1 class="area-title">Results - {{term}}</h1>
 
     <div class="area-main">
       <div class="list">
-        {% for item in playlist.items %}
+        {% for video in videos %}
         <div class="item">
-          <a href="/video/{{item.video.id}}">{{item.video.title}}</a> — <a href="/channel/{{item.video.channel.id}}">{{item.video.channel.title}}</a> — {{item.video.percentage_watched()}}%
+          <a href="/video/{{video.id}}">{{video.title}}</a> — <a href="/channel/{{video.channel.id}}">{{video.channel.title}}</a> — {{video.percentage_watched()}}%
         </div>
         {% endfor %}
       </div>
