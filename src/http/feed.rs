@@ -15,6 +15,7 @@ struct FeedTemplate<'a> {
     channels: &'a [Channel],
     videos: &'a [Video],
     playlists: &'a [SimplePlaylist],
+    term: &'a str,
 }
 
 async fn feed(context: Extension<HttpContext>) -> Result<impl IntoResponse, HttpError> {
@@ -31,6 +32,7 @@ async fn feed(context: Extension<HttpContext>) -> Result<impl IntoResponse, Http
         channels: &channels,
         videos: &videos,
         playlists: &playlists,
+        term: "",
     };
 
     Ok(Html(template.render()?))

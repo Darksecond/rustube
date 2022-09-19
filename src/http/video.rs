@@ -29,6 +29,7 @@ struct VideoTemplate<'a> {
     channels: &'a [Channel],
     playlists: &'a [SimplePlaylist],
     video: &'a Video,
+    term: &'a str,
 }
 
 async fn get_video_mp4(context: Extension<HttpContext>,
@@ -66,6 +67,7 @@ async fn video(context: Extension<HttpContext>, Path(id): Path<String>) -> Resul
         video: &video,
         playlists: &playlists,
         channels: &channels,
+        term: "",
     };
 
     Ok(Html(template.render()?))

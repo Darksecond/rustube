@@ -10,6 +10,7 @@ struct PlaylistTemplate<'a> {
     playlist: &'a Playlist,
     channels: &'a [Channel],
     playlists: &'a [SimplePlaylist],
+    term: &'a str,
 }
 
 async fn playlist(context: Extension<HttpContext>, Path(slug): Path<String>) -> Result<impl IntoResponse, HttpError> {
@@ -27,6 +28,7 @@ async fn playlist(context: Extension<HttpContext>, Path(slug): Path<String>) -> 
         playlist: &playlist,
         channels: &channels,
         playlists: &playlists,
+        term: "",
     };
 
     Ok(Html(template.render()?))

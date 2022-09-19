@@ -11,6 +11,7 @@ struct ChannelTemplate<'a> {
     channels: &'a [Channel],
     videos: &'a [Video],
     playlists: &'a [SimplePlaylist],
+    term: &'a str,
 }
 
 async fn channel(context: Extension<HttpContext>, Path(id): Path<String>) -> Result<impl IntoResponse, HttpError> {
@@ -32,6 +33,7 @@ async fn channel(context: Extension<HttpContext>, Path(id): Path<String>) -> Res
         channels: &channels,
         videos: &videos,
         playlists: &playlists,
+        term: "",
     };
 
     Ok(Html(template.render()?))
