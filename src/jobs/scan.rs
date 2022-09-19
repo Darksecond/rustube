@@ -18,7 +18,7 @@ pub struct YtVideo {
     pub uploader: String,
     pub duration: f64,
     upload_date: String,
-    pub tags: Vec<String>,
+    pub tags: Option<Vec<String>>,
 }
 
 impl YtVideo {
@@ -62,7 +62,9 @@ async fn process_entry(path: &Path, db: &SqlitePool) -> Result<(), JobError> {
 
     upsert_channel(json.to_channel(), db).await?;
     upsert_video(json.to_upsert_video(path), db).await?;
-    upsert_tags(&json.id, json.tags.as_slice(), db).await?;
+    if let Some(tags) = json.tags {
+        upsert_tags(&json.id, tags.as_slice(), db).await?;
+    }
 
     Ok(())
 }
