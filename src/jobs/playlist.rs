@@ -35,7 +35,9 @@ struct PlaylistFile {
     slug: String,
     #[serde(default)]
     order: PlaylistFileOrder,
+    #[serde(default)]
     items: Vec<PlaylistFileItem>,
+    #[serde(default)]
     search: Option<PlaylistFileSearch>,
 }
 
