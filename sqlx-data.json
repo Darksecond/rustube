@@ -1,14 +1,14 @@
 {
   "db": "SQLite",
-  "091c115eef5024c29d271fe97d98fa7af22e03038c7a6c9334b93c9c26269a94": {
+  "03d954666bdcac9cb65f56756d6243a08eb2ca7dd707c5835f03f12390c7f5a6": {
     "describe": {
       "columns": [],
       "nullable": [],
       "parameters": {
-        "Right": 5
+        "Right": 3
       }
     },
-    "query": "\n                     INSERT INTO video_index\n                     (video_id, title, description, channel, tags)\n                     VALUES\n                     ($1, $2, $3, $4, $5)\n                     "
+    "query": "\n                     INSERT INTO chapters\n                     (video_id, title, start_time)\n                     VALUES\n                     ($1, $2, $3)\n                     "
   },
   "22e838ba003739f2f581349999862be92f1b59c4675305d0b7ca569a71048ebb": {
     "describe": {
@@ -196,24 +196,6 @@
     },
     "query": "\n                 DELETE FROM playlist_items\n                 WHERE playlist_id = $1\n                 "
   },
-  "694d402c1493409fc30f6fad28813744e96ea94b6bac065b37478a005d16e046": {
-    "describe": {
-      "columns": [
-        {
-          "name": "video_id!: String",
-          "ordinal": 0,
-          "type_info": "Null"
-        }
-      ],
-      "nullable": [
-        true
-      ],
-      "parameters": {
-        "Right": 1
-      }
-    },
-    "query": "SELECT video_id as \"video_id!: String\" FROM video_index WHERE video_index MATCH $1 ORDER BY rank"
-  },
   "920604d68db58432d23e78d692312632288e9bf9678d5a38dddeef08431b891f": {
     "describe": {
       "columns": [],
@@ -381,6 +363,46 @@
       }
     },
     "query": "\n                 INSERT INTO videos\n                 (id, title, description, path, published_at, channel_id, duration)\n                 VALUES ($1, $2, $3, $4, $5, $6, $7)\n                 ON CONFLICT(id) DO UPDATE SET title=$2,description=$3,path=$4, published_at=$5,channel_id=$6,duration=$7\n                 "
+  },
+  "b91320bc1eae11a43d11fb8d67c130300208768d4b221b330971ae143cae0161": {
+    "describe": {
+      "columns": [
+        {
+          "name": "video_id",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "title",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "start_time",
+          "ordinal": 2,
+          "type_info": "Int64"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "\n                                   SELECT video_id, title, start_time FROM chapters WHERE video_id=$1 ORDER BY start_time ASC\n                                   "
+  },
+  "be13312c3d3e3eaf52508b59cf0f2863c6fce022432d83dde3005f0b7bcfbc3c": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "\n                 DELETE FROM chapters WHERE video_id=$1\n                 "
   },
   "cba443afb58e6ee9f62efcadc9aba1d834592db43365d957f5e8071cfdc70801": {
     "describe": {

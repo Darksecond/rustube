@@ -83,3 +83,11 @@ video {
     border-bottom-color: #333;
   }
 }
+
+ul.chapters {
+  list-style: none;
+}
+
+ul.chapters li {
+  margin-bottom: 0.5rem;
+}

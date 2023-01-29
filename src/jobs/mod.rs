@@ -1,6 +1,7 @@
 mod scan;
 mod playlist;
 mod index;
+mod chapters;
 
 use crate::config::Config;
 use sqlx::sqlite::SqlitePool;
@@ -62,4 +63,5 @@ pub fn spawn_jobs(config: Arc<Config>, db: SqlitePool) {
     tokio::spawn(run_job(context.clone(), "scan", Duration::from_secs(60), scan::job));
     tokio::spawn(run_job(context.clone(), "playlist", Duration::from_secs(60), playlist::job));
     tokio::spawn(run_job(context.clone(), "index", Duration::from_secs(60), index::job));
+    tokio::spawn(run_job(context.clone(), "chapters", Duration::from_secs(60), chapters::job));
 }

@@ -12,6 +12,15 @@ window.addEventListener('DOMContentLoaded', async (_event) => {
   bindKeys();
 
   setInterval(storeState, 5000);
+
+  for (let link of document.querySelectorAll('.chapters a')) {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      let video = document.querySelector('video');
+      let time = parseInt(e.target.dataset.time);
+      video.currentTime = time;
+    });
+  }
 });
 
 async function loadState() {

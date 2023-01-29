@@ -14,6 +14,7 @@ use askama::Template;
 use axum::response::Html;
 use serde::Serialize;
 use crate::model::playlist::{list_playlists, SimplePlaylist};
+use crate::model::chapter::{get_chapters, Chapter};
 
 #[derive(Serialize)]
 struct VideoData<'a> {
@@ -30,6 +31,7 @@ struct VideoTemplate<'a> {
     playlists: &'a [SimplePlaylist],
     video: &'a Video,
     term: &'a str,
+    chapters: &'a [Chapter],
 }
 
 async fn get_video_mp4(context: Extension<HttpContext>,
@@ -58,6 +60,9 @@ async fn video(context: Extension<HttpContext>, Path(id): Path<String>) -> Resul
     let playlists = list_playlists(&context.db)
         .await?;
 
+    let chapters = get_chapters(&id, &context.db)
+        .await?;
+
     let template = VideoTemplate {
         data: VideoData {
             id: &video.id,
@@ -68,6 +73,7 @@ async fn video(context: Extension<HttpContext>, Path(id): Path<String>) -> Resul
         playlists: &playlists,
         channels: &channels,
         term: "",
+        chapters: &chapters,
     };
 
     Ok(Html(template.render()?))
