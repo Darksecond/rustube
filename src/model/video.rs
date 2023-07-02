@@ -5,6 +5,7 @@ use futures::prelude::*;
 use time::{OffsetDateTime, Date};
 use super::channel::Channel;
 use super::playstate::{Playstate, PlaystateFromQuery};
+use serde::Serialize;
 
 #[derive(Debug)]
 pub struct UpsertVideo {
@@ -17,7 +18,7 @@ pub struct UpsertVideo {
     pub channel_id: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct Video {
     pub id: String,
     pub title: String,
