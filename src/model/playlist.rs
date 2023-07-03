@@ -1,8 +1,9 @@
 use sqlx::sqlite::SqlitePool;
 use futures::prelude::*;
 use super::video::Video;
+use serde::Serialize;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct SimplePlaylist {
     pub title: String,
     pub slug: String,

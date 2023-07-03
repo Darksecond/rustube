@@ -9,7 +9,7 @@ pub struct UpsertPlaystate {
     pub position: u32,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Clone)]
 pub struct Playstate {
     pub id: String,
     pub position: u32,

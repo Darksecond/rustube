@@ -8,6 +8,7 @@ mod channel;
 mod playstate;
 mod playlist;
 mod search;
+mod api;
 
 use anyhow::Context;
 use crate::config::Config;
@@ -59,4 +60,5 @@ fn router() -> Router {
         .merge(playstate::router())
         .merge(playlist::router())
         .merge(search::router())
+        .merge(api::router())
 }

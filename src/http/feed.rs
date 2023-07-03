@@ -38,17 +38,7 @@ async fn feed(context: Extension<HttpContext>) -> Result<impl IntoResponse, Http
     Ok(Html(template.render()?))
 }
 
-async fn feed_api(context: Extension<HttpContext>) -> Result<impl IntoResponse, HttpError> {
-    use axum::Json;
-
-    let videos = list_videos(&context.db)
-        .await?;
-
-    Ok(Json(videos))
-}
-
 pub fn router() -> Router {
     axum::Router::new()
-        .route("/api/videos", get(feed_api))
         .route("/feed", get(feed))
 }

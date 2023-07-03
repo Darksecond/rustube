@@ -1,7 +1,7 @@
 use sqlx::sqlite::SqlitePool;
 use serde::Serialize;
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Clone)]
 pub struct Channel {
     pub id: String,
     pub title: String,

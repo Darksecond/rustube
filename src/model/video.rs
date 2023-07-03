@@ -18,7 +18,7 @@ pub struct UpsertVideo {
     pub channel_id: String,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Clone)]
 pub struct Video {
     pub id: String,
     pub title: String,
